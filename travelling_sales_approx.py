@@ -1,6 +1,15 @@
 """
 name: Seth Roper and Max Mancini
 
+
+4 6
+0 1 20
+0 2 42
+0 3 35
+1 3 34
+2 3 12
+1 2 30
+
  """
 import itertools
 import random
