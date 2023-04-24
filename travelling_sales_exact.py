@@ -12,7 +12,7 @@ def find_optimal_tsp_path(graph, src):
     graph_copy.pop(src)
     for v_perm in itertools.permutations(graph_copy):
         v_perm = list(v_perm)
-        cost = 0
+        cost = graph[src][v_perm[0]]
         for i in range(len(v_perm)):
             if i == 0:
                 continue
