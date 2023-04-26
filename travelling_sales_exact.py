@@ -34,13 +34,16 @@ def main():
     num_vertices = int(num_things[0])
     num_edges = int(num_things[1])
     graph = {}
-    for i in range(num_vertices):
-        graph[i] = {}
     for i in range(num_edges):
-        edge_info = list(map(lambda x: int(x), input().split(" ")))
-        graph[edge_info[0]][edge_info[1]] = edge_info[2]
-        graph[edge_info[1]][edge_info[0]] = edge_info[2]
-    opt_path, opt_cost = find_optimal_tsp_path(graph, 0)
+        edge_info = input().split(" ")
+        if graph.get(edge_info[0]) is None:
+            graph[edge_info[0]] = {}
+        if graph.get(edge_info[1]) is None:
+            graph[edge_info[1]] = {}
+
+        graph[edge_info[0]][edge_info[1]] = float(edge_info[2])
+        graph[edge_info[1]][edge_info[0]] = float(edge_info[2])
+    opt_path, opt_cost = find_optimal_tsp_path(graph, "0")
     print(opt_path)
     print(opt_cost)
 
