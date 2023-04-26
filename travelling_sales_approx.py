@@ -20,6 +20,26 @@ import random
 import time
 
 
+def swap_vertices(vertex_list):
+    rand_v1 = random.randint(0, len(vertex_list) - 1)
+    rand_v2 = random.randint(0, len(vertex_list) - 1)
+    while rand_v2 == rand_v1:
+        rand_v2 = random.randint(0, len(vertex_list) - 1)
+    temp = vertex_list[rand_v2]
+    vertex_list[rand_v2] = vertex_list[rand_v1]
+    vertex_list[rand_v1] = temp
+
+
+"""
+    This solution to approximating the TSP is a RANDOM solution. It starts from a random 
+    permutation of the vertices in the graph and on each iteration of the loop
+    the program swaps two random vertices and recomputes the cost. This could lead to a decrease or increase
+    in the total cost. This also means that if one iteration results in a lower cost, the next could result in a
+    higher one. It is completely random.
+
+"""
+
+
 def find_optimal_tsp_path(graph, src, max_iter):
     current_best_path = None
     current_best_cost = float('inf')
@@ -44,13 +64,7 @@ def find_optimal_tsp_path(graph, src, max_iter):
             current_best_path = path
 
         # Swap two random vertices
-        rand_v1 = random.randint(0, len(vertex_list)-1)
-        rand_v2 = random.randint(0, len(vertex_list)-1)
-        while rand_v2 == rand_v1:
-            rand_v2 = random.randint(0, len(vertex_list)-1)
-        temp = vertex_list[rand_v2]
-        vertex_list[rand_v2] = vertex_list[rand_v1]
-        vertex_list[rand_v1] = temp
+        swap_vertices(vertex_list)
 
     return current_best_path, current_best_cost
 
@@ -70,7 +84,7 @@ def main():
         graph[edge_info[0]][edge_info[1]] = edge_info[2]
         graph[edge_info[1]][edge_info[0]] = edge_info[2]
     start = time.time()
-    opt_path, opt_cost = find_optimal_tsp_path(graph, "0", 50)
+    opt_path, opt_cost = find_optimal_tsp_path(graph, "0", 100000)
     end = time.time()
     print(opt_path)
     print(opt_cost)
