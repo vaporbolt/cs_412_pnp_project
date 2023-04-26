@@ -1,6 +1,15 @@
 """
 name: Seth Roper and Max Mancini
 
+
+4 6
+0 1 20
+0 2 42
+0 3 35
+1 3 34
+2 3 12
+1 2 30
+
  """
 import itertools
 import random
@@ -18,9 +27,13 @@ def find_optimal_tsp_path(graph, src, max_iter):
         cost = 0
         path = list()
         path.append(src)
+        last_vertex = src
         for i in vertex_list:
             path.append(i)
-            cost += graph[i][i - 1]
+            cost += graph[i][last_vertex]
+            last_vertex = i
+        path.append(src)
+        cost += graph[last_vertex][src]
         if cost < current_best_cost:
             current_best_cost = cost
             current_best_path = path
@@ -34,7 +47,6 @@ def find_optimal_tsp_path(graph, src, max_iter):
         vertex_list[rand_v2] = vertex_list[rand_v1]
         vertex_list[rand_v1] = temp
 
-    current_best_path.append(src)
     return current_best_path, current_best_cost
 
 
