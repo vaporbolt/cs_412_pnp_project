@@ -1,0 +1,37 @@
+13 Vertex Approximation:
+['0', '11', '3', '1', '8', '5', '2', '7', '9', '12', '6', '10', '4', '0']
+43235.46199620695
+TIME: 0.0s
+
+13 Vertex Lower Bound:
+Sum method: 12648.072884296098	MST method: 12412.944591064137
+
+
+30 Vertex Approximation:
+['0', '26', '22', '16', '7', '8', '29', '1', '9', '14', '5', '28', '2', '15', '11', '13', '20', '4', '24', '21', '3', '19', '25', '17', '12', '27', '6', '23', '18', '10', '0']
+92135.54035042184
+TIME: 0.004986286163330078s
+
+30 Vertex Lower Bound:
+Sum method: 14547.324719748385	MST method: 12269.613864081439
+
+
+3 Vertex Approximation:
+['a', 'c', 'b', 'a']
+12.0
+TIME: 0.0009975433349609375s
+
+3 Vertex Lower Bound:
+Sum method: 12.0	MST method: 12.0
+
+
+4 Vertex Approximation:
+['0', '2', '3', '1', '0']
+108.0
+TIME: 0.0s
+
+4 Vertex Lower Bound:
+Sum method: 96.5	MST method: 97.0
+
+
+1060 Vertex Approximation:
