@@ -44,12 +44,13 @@ def main():
 
         graph[edge_info[0]][edge_info[1]] = float(edge_info[2])
         graph[edge_info[1]][edge_info[0]] = float(edge_info[2])
+    vertices = list(graph.keys())
     start = time.time()
-    opt_path, opt_cost = find_optimal_tsp_path(graph, "0")
+    opt_path, opt_cost = find_optimal_tsp_path(graph, vertices[0])
     end = time.time()
     print(opt_path)
     print(opt_cost)
-    print(end - start)
+    print(f"TIME: {end - start}")
 
 
 if __name__ == "__main__":
