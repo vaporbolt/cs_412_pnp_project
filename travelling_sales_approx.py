@@ -1,20 +1,6 @@
 """
 name: Seth Roper and Max Mancini
 
-
-4 6
-0 1 20
-0 2 42
-0 3 35
-1 3 34
-2 3 12
-1 2 30
-
-3 3
-a b 3
-b c 4
-a c 5
-
  """
 import random
 import time
@@ -83,12 +69,13 @@ def main():
             graph[edge_info[1]] = {}
         graph[edge_info[0]][edge_info[1]] = edge_info[2]
         graph[edge_info[1]][edge_info[0]] = edge_info[2]
+    vertices = list(graph.keys())
     start = time.time()
-    opt_path, opt_cost = find_optimal_tsp_path(graph, "0", 100000)
+    opt_path, opt_cost = find_optimal_tsp_path(graph, vertices[0], num_edges)
     end = time.time()
     print(opt_path)
     print(opt_cost)
-    print(end - start)
+    print(f"TIME: {end - start}s")
 
 
 if __name__ == "__main__":
