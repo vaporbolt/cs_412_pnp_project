@@ -71,7 +71,7 @@ def main():
         graph[edge_info[1]][edge_info[0]] = edge_info[2]
     vertices = list(graph.keys())
     start = time.time()
-    opt_path, opt_cost = find_optimal_tsp_path(graph, vertices[0], num_edges)
+    opt_path, opt_cost = find_optimal_tsp_path(graph, vertices[0], int(10000*num_vertices))
     end = time.time()
     print(opt_path)
     print(opt_cost)
