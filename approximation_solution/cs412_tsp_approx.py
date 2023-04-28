@@ -32,7 +32,6 @@ def find_optimal_tsp_path(graph, src, max_iter):
     graph_copy = graph.copy()
     graph_copy.pop(src)
     vertex_list = list(graph_copy.keys())
-    random.shuffle(vertex_list)
 
     for _ in range(max_iter):
         cost = 0
@@ -48,6 +47,8 @@ def find_optimal_tsp_path(graph, src, max_iter):
         if cost < current_best_cost:
             current_best_cost = cost
             current_best_path = path
+        else:
+            vertex_list = current_best_path[1:len(current_best_path)-1]
 
         # Swap two random vertices
         swap_vertices(vertex_list)
@@ -71,11 +72,11 @@ def main():
         graph[edge_info[1]][edge_info[0]] = edge_info[2]
     vertices = list(graph.keys())
     start = time.time()
-    opt_path, opt_cost = find_optimal_tsp_path(graph, vertices[0], int(10000*num_vertices))
+    opt_path, opt_cost = find_optimal_tsp_path(graph, vertices[0], 100000)
     end = time.time()
-    print(opt_path)
     print(opt_cost)
-    print(f"TIME: {end - start}s")
+    print(*opt_path)
+    #print(f"TIME: {end - start}s")
 
 
 if __name__ == "__main__":
