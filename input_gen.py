@@ -1,6 +1,6 @@
 import random
 
-f = open("big_test.txt", "w")
+f = open("exact_solution/test_cases/12_vertex.txt", "w")
 text = ""
 num_vertexes = int(input())
 num_edges = (num_vertexes * (num_vertexes - 1)) // 2
