@@ -49,13 +49,14 @@ def find_optimal_tsp_path(graph, src, max_iter):
 
     # Begin approximation
     for _ in range(max_iter):
-        # Make a copy of the vertex list and swap two vertices in the copy
+        # Get two random vertices in the vertex list
 
         i1 = random.randint(1, len(vertex_list) - 2)
         i2 = random.randint(1, len(vertex_list) - 2)
         while i2 == i1:
             i2 = random.randint(1, len(vertex_list) - 2)
 
+        # Compute the cost of the affected edges before the swap
         vertex_list_total = \
             float(graph[vertex_list[i1 - 1]][vertex_list[i1]]) + \
             float(graph[vertex_list[i1]][vertex_list[i1 + 1]]) + \
@@ -64,7 +65,7 @@ def find_optimal_tsp_path(graph, src, max_iter):
 
         swap_vertices(vertex_list, i1, i2)
 
-        # Gather total weight of edges connected to swapped vertices in both lists
+        # Compute the cost of the affected edges after the swap
         new_list_total = \
             float(graph[vertex_list[i1 - 1]][vertex_list[i1]]) + \
             float(graph[vertex_list[i1]][vertex_list[i1 + 1]]) + \
@@ -72,7 +73,7 @@ def find_optimal_tsp_path(graph, src, max_iter):
             float(graph[vertex_list[i2]][vertex_list[i2 + 1]])
 
         # If the weight of the edges after the swap is smaller, we have made a positive swap
-        # Update the best cost and path
+        # Update the best cost and path. Otherwise, swap them back.
         if new_list_total < vertex_list_total:
             current_best_cost -= vertex_list_total
             current_best_cost += new_list_total
@@ -105,7 +106,7 @@ def main():
     end = time.time()
     print(opt_cost)
     print(*opt_path)
-    print(f"TIME: {end - start}s")
+    #print(f"TIME: {end - start}s")
 
 
 if __name__ == "__main__":
