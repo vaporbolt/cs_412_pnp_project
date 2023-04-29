@@ -8,11 +8,7 @@ import time
 
 # Swaps two vertices in the given list and returns the swapped indices
 # We don't want to move the source node, so we generate indexes from the second to the second to last item
-def swap_vertices(vertex_list):
-    rand_v1 = random.randint(1, len(vertex_list) - 2)
-    rand_v2 = random.randint(1, len(vertex_list) - 2)
-    while rand_v2 == rand_v1:
-        rand_v2 = random.randint(1, len(vertex_list) - 2)
+def swap_vertices(vertex_list, rand_v1, rand_v2):
     temp = vertex_list[rand_v2]
     vertex_list[rand_v2] = vertex_list[rand_v1]
     vertex_list[rand_v1] = temp
@@ -54,29 +50,35 @@ def find_optimal_tsp_path(graph, src, max_iter):
     # Begin approximation
     for _ in range(max_iter):
         # Make a copy of the vertex list and swap two vertices in the copy
-        new_list = vertex_list.copy()
-        i1, i2 = swap_vertices(new_list)
 
-        # Gather total weight of edges connected to swapped vertices in both lists
+        i1 = random.randint(1, len(vertex_list) - 2)
+        i2 = random.randint(1, len(vertex_list) - 2)
+        while i2 == i1:
+            i2 = random.randint(1, len(vertex_list) - 2)
+
         vertex_list_total = \
             float(graph[vertex_list[i1 - 1]][vertex_list[i1]]) + \
             float(graph[vertex_list[i1]][vertex_list[i1 + 1]]) + \
             float(graph[vertex_list[i2 - 1]][vertex_list[i2]]) + \
             float(graph[vertex_list[i2]][vertex_list[i2 + 1]])
 
+        swap_vertices(vertex_list, i1, i2)
+
+        # Gather total weight of edges connected to swapped vertices in both lists
         new_list_total = \
-            float(graph[new_list[i1 - 1]][new_list[i1]]) +\
-            float(graph[new_list[i1]][new_list[i1 + 1]]) +\
-            float(graph[new_list[i2 - 1]][new_list[i2]]) +\
-            float(graph[new_list[i2]][new_list[i2 + 1]])
+            float(graph[vertex_list[i1 - 1]][vertex_list[i1]]) + \
+            float(graph[vertex_list[i1]][vertex_list[i1 + 1]]) + \
+            float(graph[vertex_list[i2 - 1]][vertex_list[i2]]) + \
+            float(graph[vertex_list[i2]][vertex_list[i2 + 1]])
 
         # If the weight of the edges after the swap is smaller, we have made a positive swap
         # Update the best cost and path
         if new_list_total < vertex_list_total:
-            vertex_list = new_list
             current_best_cost -= vertex_list_total
             current_best_cost += new_list_total
             current_best_path = vertex_list
+        else:
+            swap_vertices(vertex_list, i1, i2)
 
     return current_best_path, current_best_cost
 
