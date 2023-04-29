@@ -6,52 +6,77 @@ import random
 import time
 
 
+# Swaps two vertices in the given list and returns the swapped indices
+# We don't want to move the source node, so we generate indexes from the second to the second to last item
 def swap_vertices(vertex_list):
-    rand_v1 = random.randint(0, len(vertex_list) - 1)
-    rand_v2 = random.randint(0, len(vertex_list) - 1)
+    rand_v1 = random.randint(1, len(vertex_list) - 2)
+    rand_v2 = random.randint(1, len(vertex_list) - 2)
     while rand_v2 == rand_v1:
-        rand_v2 = random.randint(0, len(vertex_list) - 1)
+        rand_v2 = random.randint(1, len(vertex_list) - 2)
     temp = vertex_list[rand_v2]
     vertex_list[rand_v2] = vertex_list[rand_v1]
     vertex_list[rand_v1] = temp
 
+    return rand_v1, rand_v2
+
 
 """
-    This solution to approximating the TSP is a RANDOM solution. It starts from a random 
-    permutation of the vertices in the graph and on each iteration of the loop
-    the program swaps two random vertices and recomputes the cost. This could lead to a decrease or increase
-    in the total cost. This also means that if one iteration results in a lower cost, the next could result in a
-    higher one. It is completely random.
+    This solution to approximating the TSP is a RANDOM solution. On each iteration of the loop
+    the program swaps two random vertices and checks if the new cost is lower than the old cost. 
+    If the new cost is better than the previous, it accepts the new path, 
+    otherwise it attempts to make a positive swap on the current best path again.
 
 """
 
 
 def find_optimal_tsp_path(graph, src, max_iter):
-    current_best_path = None
-    current_best_cost = float('inf')
-    graph_copy = graph.copy()
-    graph_copy.pop(src)
-    vertex_list = list(graph_copy.keys())
+    # Create a list of all vertices in the graph, in order initially
+    vertex_list = list(graph.keys())
+    vertex_list.append(src)
 
+    # Set up initial path and cost variables to reflect the cost of the initial list
+    cost = 0
+    path = list()
+    path.append(src)
+    last_vertex = src
+    for i in vertex_list:
+        if i == src:
+            continue
+        path.append(i)
+        cost += float(graph[i][last_vertex])
+        last_vertex = i
+    path.append(src)
+    cost += float(graph[last_vertex][src])
+
+    current_best_cost = cost
+    current_best_path = path
+
+    # Begin approximation
     for _ in range(max_iter):
-        cost = 0
-        path = list()
-        path.append(src)
-        last_vertex = src
-        for i in vertex_list:
-            path.append(i)
-            cost += float(graph[i][last_vertex])
-            last_vertex = i
-        path.append(src)
-        cost += float(graph[last_vertex][src])
-        if cost < current_best_cost:
-            current_best_cost = cost
-            current_best_path = path
-        else:
-            vertex_list = current_best_path[1:len(current_best_path)-1]
+        # Make a copy of the vertex list and swap two vertices in the copy
+        new_list = vertex_list.copy()
+        i1, i2 = swap_vertices(new_list)
 
-        # Swap two random vertices
-        swap_vertices(vertex_list)
+        # Gather total weight of edges connected to swapped vertices in both lists
+        vertex_list_total = \
+            float(graph[vertex_list[i1 - 1]][vertex_list[i1]]) + \
+            float(graph[vertex_list[i1]][vertex_list[i1 + 1]]) + \
+            float(graph[vertex_list[i2 - 1]][vertex_list[i2]]) + \
+            float(graph[vertex_list[i2]][vertex_list[i2 + 1]])
+
+        new_list_total = \
+            float(graph[new_list[i1 - 1]][new_list[i1]]) +\
+            float(graph[new_list[i1]][new_list[i1 + 1]]) +\
+            float(graph[new_list[i2 - 1]][new_list[i2]]) +\
+            float(graph[new_list[i2]][new_list[i2 + 1]])
+
+        # If the weight of the edges after the swap is smaller, we have made a positive swap
+        # Update the best cost and path
+        if new_list_total < vertex_list_total:
+            vertex_list = new_list
+            current_best_cost -= vertex_list_total
+            current_best_cost += new_list_total
+            current_best_path = vertex_list
 
     return current_best_path, current_best_cost
 
@@ -72,11 +97,13 @@ def main():
         graph[edge_info[1]][edge_info[0]] = edge_info[2]
     vertices = list(graph.keys())
     start = time.time()
+    # Starting point will always be first vertex, iteration count set to 100000
+    # by default to balance speed and accuracy
     opt_path, opt_cost = find_optimal_tsp_path(graph, vertices[0], 100000)
     end = time.time()
     print(opt_cost)
     print(*opt_path)
-    #print(f"TIME: {end - start}s")
+    print(f"TIME: {end - start}s")
 
 
 if __name__ == "__main__":

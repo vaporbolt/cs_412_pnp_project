@@ -81,9 +81,9 @@ do
   printf "\n\n\n" >> output_approx.txt
 done
 
-#printf "\n\n" >> output_approx.txt
+printf "\n\n" >> output_approx.txt
 
-#printf "1060 Vertex Approximation:\n" >> output_approx.txt
-#cat exact_solution/test_cases/u1060_tsp_t0.txt | python approximation_solution/cs412_tsp_approx.py >> output_approx.txt
-#printf "\n1060 Vertex Lower Bound:\n" >> output_approx.txt
-#cat exact_solution/test_cases/u1060_tsp_t0.txt | python approximation_solution/tsp_lowerbound.py >> output_approx.txt
+printf "1060 Vertex Approximation:\n" >> output_approx.txt
+cat exact_solution/test_cases/u1060_tsp_t0.txt | python approximation_solution/cs412_tsp_approx.py >> output_approx.txt
+printf "\n1060 Vertex Lower Bound:\n" >> output_approx.txt
+cat exact_solution/test_cases/u1060_tsp_t0.txt | python approximation_solution/tsp_lowerbound.py >> output_approx.txt
